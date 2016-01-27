@@ -5,7 +5,7 @@ var newTodoInput = document.getElementById('new-todo-input')
 var todoList = document.getElementById('todo-list')
 var todoCount = document.getElementById('todo-count')
 
-// renders
+// Renders
 
 function renderTodos() {
   todoList.innerHTML = todos.map(function(todo, index) {
@@ -17,8 +17,7 @@ function renderTodos() {
 }
 
 function countTodos() {
-  todoCount.innerHTML = '<strong>Items:</strong> ' + todos.length
-  console.log(todos.length)
+  todoCount.innerHTML = '<strong>Items:</strong> ' + todos.length + ' <button class="clear-all">Clear All</button>'
 }
 
 // Events
@@ -37,5 +36,15 @@ todoList.onclick = function(event) {
   if (clickedElement.className === 'remove-todo') {
     todos.splice(clickedElement.dataset.index, 1)
     renderTodos()
+  }
+}
+
+todoCount.onclick = function(event) {
+  var clickedElement = event.target
+  if (clickedElement.className === 'clear-all') {
+    console.log('You cleared all')
+    todos.splice(0)
+    renderTodos()
+    countTodos()
   }
 }
