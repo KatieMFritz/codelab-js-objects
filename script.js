@@ -52,21 +52,24 @@ newTodoInput.onkeypress = function(event) {
   }
 }
 
-// move up
+// manipulate todo
 todoList.onclick = function(event) {
   var clickedElement = event.target
   if (clickedElement.className === 'move-up') {
-    console.log('move up')
+    var index = clickedElement.dataset.index
+    // console.log('index is ' + index + ' and value is ' + todos[index])
+    // console.log('index - 1 = ' + todos[index-1])
+    var temp = todos[index-1]
+    todos[index-1] = todos[index]
+    todos[index] = temp
   }
-}
-
-// remove todo
-todoList.onclick = function(event) {
-  var clickedElement = event.target
+  if (clickedElement.className === 'move-down') {
+    console.log('move down')
+  }
   if (clickedElement.className === 'remove-todo') {
     todos.splice(clickedElement.dataset.index, 1)
-    renderAll()
   }
+  renderAll()
 }
 
 // clear all
