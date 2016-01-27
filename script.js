@@ -18,8 +18,8 @@ function renderTodos() {
   todoList.innerHTML = todos.map(function(todo, index) {
     return '<li>' +
       todo +
-      ' <button class="move-up" data-index="' + index + '">↑</button>' +
-      ' <button class="move-down" data-index="' + index + '">↓</button>' +
+      (index > 0 ? ' <button class="move-up" data-index="' + index + '">↑</button>' : '') +
+      (index !== todos.length - 1 ? ' <button class="move-down" data-index="' + index + '">↓</button>' : '') +
       ' <button class="remove-todo" data-index="' + index + '">X</button>' +
     '</li>'
   }).join('')
@@ -55,19 +55,19 @@ newTodoInput.onkeypress = function(event) {
 // manipulate todo
 todoList.onclick = function(event) {
   var clickedElement = event.target
+  var index = parseInt(clickedElement.dataset.index)
   if (clickedElement.className === 'move-up') {
-    var index = clickedElement.dataset.index
-    // console.log('index is ' + index + ' and value is ' + todos[index])
-    // console.log('index - 1 = ' + todos[index-1])
     var temp = todos[index-1]
     todos[index-1] = todos[index]
     todos[index] = temp
   }
   if (clickedElement.className === 'move-down') {
-    console.log('move down')
+    var temp = todos[index+1]
+    todos[index+1] = todos[index]
+    todos[index] = temp
   }
   if (clickedElement.className === 'remove-todo') {
-    todos.splice(clickedElement.dataset.index, 1)
+    todos.splice(index, 1)
   }
   renderAll()
 }
