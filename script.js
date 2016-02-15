@@ -19,8 +19,11 @@ function renderTodos() {
   // change the innerHTML of todoList to the following
   todoList.innerHTML = todos.map(function(todo, index) {
     return '<li>' +
-      // display the todo
-      todo.title +
+      //display a checkbox
+      '<input type="checkbox" value="' + todo.title + '" id="' + todo.title + '">' +
+      // display the todo title with description when you mouse over
+      '<label for="' + todo.title + '" title="' + todo.description + '">' +
+      todo.title + '</label>' +
       // display up button if not the first list item
       (index > 0 ? ' <button class="move-up" data-index="' + index + '">↑</button>' : '') +
       // display down button if not the last list item
@@ -51,9 +54,9 @@ function pickForMe() {
 
 // add new todo
 document.getElementById('new-todo').onsubmit = function(event) {
-  // Prevents the form from actually submitting.
+  // Prevents the form from accidentally submitting.
   event.preventDefault()
-  todos.push({ title: newTodoTitle.value, desciption: newTodoDescription.value }) // adds the value of the Title box to the todo array
+  todos.push({ title: newTodoTitle.value, description: newTodoDescription.value }) // adds the value of the Title box to the todo array
   newTodoTitle.value = '' // then clears the Title box
   newTodoDescription.value = ''
   renderAll() // update everything on the page
@@ -63,26 +66,28 @@ document.getElementById('new-todo').onsubmit = function(event) {
 todoList.onclick = function(event) {
   var clickedElement = event.target
   var index = parseInt(clickedElement.dataset.index)
-  if (clickedElement.classTitle === 'move-up') {
+  if (clickedElement.className === 'move-up') {
     var temp = todos[index-1]
     todos[index-1] = todos[index]
     todos[index] = temp
+    renderAll()
   }
-  if (clickedElement.classTitle === 'move-down') {
+  if (clickedElement.className === 'move-down') {
     var temp = todos[index+1]
     todos[index+1] = todos[index]
     todos[index] = temp
+    renderAll()
   }
-  if (clickedElement.classTitle === 'remove-todo') {
+  if (clickedElement.className === 'remove-todo') {
     todos.splice(index, 1)
+    renderAll()
   }
-  renderAll()
 }
 
 // clear all
 todoCount.onclick = function(event) {
   var clickedElement = event.target
-  if (clickedElement.classTitle === 'clear-all') {
+  if (clickedElement.className === 'clear-all') {
     todos.splice(0)
     renderAll()
   }
@@ -91,8 +96,8 @@ todoCount.onclick = function(event) {
 // can't decide
 cantDecide.onclick = function(event) {
   var clickedElement = event.target
-  if (clickedElement.classTitle === "cant-decide") {
+  if (clickedElement.className === "cant-decide") {
     var suggestion = todos[Math.floor(Math.random() * todos.length)];
-    alert("Do this: " + suggestion)
+    alert("Do this: " + suggestion.title)
   }
 }
