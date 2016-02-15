@@ -29,7 +29,7 @@ function renderTodos() {
       '>' +
       // display the todo title with description when you mouse over
       '<label for="' + todo.title + '" title="' + todo.description + '">' +
-        todo.title + 
+        todo.title +
       '</label>' +
       // display up button if not the first list item
       (index > 0 ? ' <button class="move-up" data-index="' + index + '">↑</button>' : '') +
@@ -45,7 +45,11 @@ function countTodos() {
   if (todos.length === 0) {
     return todoCount.innerHTML = ''
   }
-  todoCount.innerHTML = '<strong>Items:</strong> ' + todos.length + ' <button class="clear-all">Clear All</button>'
+  todoCount.innerHTML =
+    '<strong>Items:</strong> ' +
+    todos.length +
+    ' <button class="clear-all">Clear All</button>' +
+    ' <button class="clear-completed">Clear Completed</button>'
 }
 
 function pickForMe() {
@@ -102,11 +106,17 @@ todoList.onclick = function(event) {
   }
 }
 
-// clear all
+// clear all, clear completed
 todoCount.onclick = function(event) {
   var clickedElement = event.target
   if (clickedElement.className === 'clear-all') {
     todos.splice(0)
+    renderAll()
+  }
+  if (clickedElement.className === 'clear-completed') {
+    todos = todos.filter(function(todo) {
+      return !todo.isComplete
+    })
     renderAll()
   }
 }
