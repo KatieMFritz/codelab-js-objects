@@ -20,10 +20,16 @@ function renderTodos() {
   todoList.innerHTML = todos.map(function(todo, index) {
     return '<li>' +
       //display a checkbox
-      '<input type="checkbox" value="' + todo.title + '" id="' + todo.title + '">' +
+      '<input ' +
+        'type="checkbox" ' +
+        'value="' + todo.title + '" ' +
+        'id="' + todo.title + '" ' +
+        (todo.isComplete === true ? 'checked ' : '') +
+      '>' +
       // display the todo title with description when you mouse over
       '<label for="' + todo.title + '" title="' + todo.description + '">' +
-      todo.title + '</label>' +
+        todo.title +
+      '</label>' +
       // display up button if not the first list item
       (index > 0 ? ' <button class="move-up" data-index="' + index + '">↑</button>' : '') +
       // display down button if not the last list item
@@ -56,28 +62,36 @@ function pickForMe() {
 document.getElementById('new-todo').onsubmit = function(event) {
   // Prevents the form from accidentally submitting.
   event.preventDefault()
-  todos.push({ title: newTodoTitle.value, description: newTodoDescription.value }) // adds the value of the Title box to the todo array
-  newTodoTitle.value = '' // then clears the Title box
+  // adds the value of the Title box to the todo array
+  todos.push({ title: newTodoTitle.value, description: newTodoDescription.value, isComplete: false })
+  // reset form fields
+  newTodoTitle.value = ''
   newTodoDescription.value = ''
-  renderAll() // update everything on the page
+  // update everything on the page
+  renderAll()
 }
 
 // manipulate todo
 todoList.onclick = function(event) {
   var clickedElement = event.target
   var index = parseInt(clickedElement.dataset.index)
+  // if the user checked the checkbox, mark the item as complete
+
+  // if the user clicked move up, move the item up
   if (clickedElement.className === 'move-up') {
     var temp = todos[index-1]
     todos[index-1] = todos[index]
     todos[index] = temp
     renderAll()
   }
+  // if the user clicked move down, move the item down
   if (clickedElement.className === 'move-down') {
     var temp = todos[index+1]
     todos[index+1] = todos[index]
     todos[index] = temp
     renderAll()
   }
+  // if the user clicked the remove button, remove the todo
   if (clickedElement.className === 'remove-todo') {
     todos.splice(index, 1)
     renderAll()
