@@ -1,17 +1,11 @@
 // Variables
 
 var todos = []
-var newTodoInput = document.getElementById('new-todo-input')
+var newTodoName = document.getElementById('new-todo-name')
 var todoList = document.getElementById('todo-list')
 var todoCount = document.getElementById('todo-count')
 var cantDecide = document.getElementById('cant-decide')
 
-// This is what an object looks like
-{
-  title: 'aTitle'
-  description: 'it has a description'
-  isComplete: 'yes'
-}
 // Renderers
 
 function renderAll() {
@@ -55,12 +49,12 @@ function pickForMe() {
 // *******************************
 
 // add new todo
-newTodoInput.onkeypress = function(event) {
-  if (event.which === 13) { // when the user hits enter
-    todos.push({ title: this.value }) // adds the value of the input box to the todo array
-    this.value = '' // then clears the input box
-    renderAll() // update everything on the page
-  }
+document.getElementById('new-todo').onsubmit = function(event) {
+  // Prevents the form from actually submitting.
+  event.preventDefault()
+  todos.push({ title: newTodoName.value }) // adds the value of the name box to the todo array
+  newTodoName.value = '' // then clears the name box
+  renderAll() // update everything on the page
 }
 
 // manipulate todo
