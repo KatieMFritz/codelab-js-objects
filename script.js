@@ -1,7 +1,8 @@
 // Variables
 
 var todos = []
-var newTodoName = document.getElementById('new-todo-name')
+var newTodoTitle = document.getElementById('new-todo-title')
+var newTodoDescription = document.getElementById('new-todo-description')
 var todoList = document.getElementById('todo-list')
 var todoCount = document.getElementById('todo-count')
 var cantDecide = document.getElementById('cant-decide')
@@ -52,8 +53,9 @@ function pickForMe() {
 document.getElementById('new-todo').onsubmit = function(event) {
   // Prevents the form from actually submitting.
   event.preventDefault()
-  todos.push({ title: newTodoName.value }) // adds the value of the name box to the todo array
-  newTodoName.value = '' // then clears the name box
+  todos.push({ title: newTodoTitle.value, desciption: newTodoDescription.value }) // adds the value of the Title box to the todo array
+  newTodoTitle.value = '' // then clears the Title box
+  newTodoDescription.value = ''
   renderAll() // update everything on the page
 }
 
@@ -61,17 +63,17 @@ document.getElementById('new-todo').onsubmit = function(event) {
 todoList.onclick = function(event) {
   var clickedElement = event.target
   var index = parseInt(clickedElement.dataset.index)
-  if (clickedElement.className === 'move-up') {
+  if (clickedElement.classTitle === 'move-up') {
     var temp = todos[index-1]
     todos[index-1] = todos[index]
     todos[index] = temp
   }
-  if (clickedElement.className === 'move-down') {
+  if (clickedElement.classTitle === 'move-down') {
     var temp = todos[index+1]
     todos[index+1] = todos[index]
     todos[index] = temp
   }
-  if (clickedElement.className === 'remove-todo') {
+  if (clickedElement.classTitle === 'remove-todo') {
     todos.splice(index, 1)
   }
   renderAll()
@@ -80,7 +82,7 @@ todoList.onclick = function(event) {
 // clear all
 todoCount.onclick = function(event) {
   var clickedElement = event.target
-  if (clickedElement.className === 'clear-all') {
+  if (clickedElement.classTitle === 'clear-all') {
     todos.splice(0)
     renderAll()
   }
@@ -89,7 +91,7 @@ todoCount.onclick = function(event) {
 // can't decide
 cantDecide.onclick = function(event) {
   var clickedElement = event.target
-  if (clickedElement.className === "cant-decide") {
+  if (clickedElement.classTitle === "cant-decide") {
     var suggestion = todos[Math.floor(Math.random() * todos.length)];
     alert("Do this: " + suggestion)
   }
