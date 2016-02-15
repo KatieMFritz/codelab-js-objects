@@ -23,12 +23,13 @@ function renderTodos() {
       '<input ' +
         'type="checkbox" ' +
         'value="' + todo.title + '" ' +
+        'data-index="' + index + '" ' +
         'id="' + todo.title + '" ' +
         (todo.isComplete === true ? 'checked ' : '') +
       '>' +
       // display the todo title with description when you mouse over
       '<label for="' + todo.title + '" title="' + todo.description + '">' +
-        todo.title +
+        todo.title + 
       '</label>' +
       // display up button if not the first list item
       (index > 0 ? ' <button class="move-up" data-index="' + index + '">↑</button>' : '') +
@@ -75,8 +76,11 @@ document.getElementById('new-todo').onsubmit = function(event) {
 todoList.onclick = function(event) {
   var clickedElement = event.target
   var index = parseInt(clickedElement.dataset.index)
-  // if the user checked the checkbox, mark the item as complete
-
+  // if the user checked the checkbox, toggle isComplete
+  if (clickedElement.type === 'checkbox') {
+    todos[index].isComplete = !todos[index].isComplete
+    renderAll()
+  }
   // if the user clicked move up, move the item up
   if (clickedElement.className === 'move-up') {
     var temp = todos[index-1]
