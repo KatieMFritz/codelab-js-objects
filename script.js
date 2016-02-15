@@ -6,6 +6,12 @@ var todoList = document.getElementById('todo-list')
 var todoCount = document.getElementById('todo-count')
 var cantDecide = document.getElementById('cant-decide')
 
+// This is what an object looks like
+{
+  title: 'aTitle'
+  description: 'it has a description'
+  isComplete: 'yes'
+}
 // Renderers
 
 function renderAll() {
@@ -15,13 +21,18 @@ function renderAll() {
 }
 
 function renderTodos() {
+  // change the innerHTML of todoList to the following
   todoList.innerHTML = todos.map(function(todo, index) {
     return '<li>' +
-      todo +
+      // display the todo
+      todo.title +
+      // display up button if not the first list item
       (index > 0 ? ' <button class="move-up" data-index="' + index + '">↑</button>' : '') +
+      // display down button if not the last list item
       (index !== todos.length - 1 ? ' <button class="move-down" data-index="' + index + '">↓</button>' : '') +
       ' <button class="remove-todo" data-index="' + index + '">X</button>' +
     '</li>'
+  // join together all the list items into a single string to put into the innerHTML
   }).join('')
 }
 
@@ -45,10 +56,10 @@ function pickForMe() {
 
 // add new todo
 newTodoInput.onkeypress = function(event) {
-  if (event.which === 13) {
-    todos.push(this.value)
-    this.value = ''
-    renderAll()
+  if (event.which === 13) { // when the user hits enter
+    todos.push({ title: this.value }) // adds the value of the input box to the todo array
+    this.value = '' // then clears the input box
+    renderAll() // update everything on the page
   }
 }
 
