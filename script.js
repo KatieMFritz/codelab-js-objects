@@ -11,8 +11,8 @@ var cantDecide = document.getElementById('cant-decide')
 
 function renderAll() {
   renderTodos()
-  countTodos()
-  pickForMe()
+  renderTodosCount()
+  renderCantDecideInstructionsOrButton()
 }
 
 function renderTodos() {
@@ -41,7 +41,7 @@ function renderTodos() {
   }).join('')
 }
 
-function countTodos() {
+function renderTodosCount() {
   if (todos.length === 0) {
     return todoCount.innerHTML = ''
   }
@@ -52,7 +52,7 @@ function countTodos() {
     ' <button class="clear-completed">Clear Completed</button>'
 }
 
-function pickForMe() {
+function renderCantDecideInstructionsOrButton() {
   if (todos.length === 0) {
     return cantDecide.innerHTML = "Add some items and we'll suggest one for you."
   }
@@ -68,7 +68,11 @@ document.getElementById('new-todo').onsubmit = function(event) {
   // Prevents the form from accidentally submitting.
   event.preventDefault()
   // adds the value of the Title box to the todo array
-  todos.push({ title: newTodoTitle.value, description: newTodoDescription.value, isComplete: false })
+  todos.push({
+    title: newTodoTitle.value,
+    description: newTodoDescription.value,
+    isComplete: false
+  })
   // reset form fields
   newTodoTitle.value = ''
   newTodoDescription.value = ''
@@ -110,7 +114,7 @@ todoList.onclick = function(event) {
 todoCount.onclick = function(event) {
   var clickedElement = event.target
   if (clickedElement.className === 'clear-all') {
-    todos.splice(0)
+    todos = []
     renderAll()
   }
   if (clickedElement.className === 'clear-completed') {
